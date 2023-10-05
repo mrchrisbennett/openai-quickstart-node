@@ -29,29 +29,30 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 540px;
+  max-width: 640px;
   margin: 0 auto;
 }
 .main .icon {
   width: 34px;
 }
 .main h3 {
-  font-size: 32px;
-  line-height: 40px;
+  font-size: 24px;
+  line-height: 1.2;
   font-weight: bold;
   color: #202123;
-  margin: 24px 0;
+  margin: 12px 0;
+  width: 100%;
 }
 .main form {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
+  gap: 12px;
 }
 .main input[type="text"] {
   padding: 12px 16px;
   border: 1px solid #10a37f;
   border-radius: 4px;
-  margin-bottom: 24px;
   outline-color: #10a37f;
   width: 100%;
 }
@@ -60,13 +61,14 @@
   opacity: 1;
 }
 .main input[type="submit"] {
-  padding: 12px 0;
+  padding: 0 12px;
   color: #fff;
   background-color: #10a37f;
   border: none;
   border-radius: 4px;
   text-align: center;
   cursor: pointer;
+  width: fit-content;
 }
 .main .result {
   padding: 12px;

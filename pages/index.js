@@ -51,7 +51,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h3>Review clause</h3>
-        <form onSubmit={onSubmit}>
+        <form className={styles.form} onSubmit={onSubmit}>
           <input
             type="text"
             name="clause"
@@ -59,7 +59,7 @@ export default function Home() {
             value={clauseInput}
             onChange={(e) => setClauseInput(e.target.value)}
           />
-          <input type="submit" value="Let's go" />
+          <input className={styles.submit} type="submit" value="Let's go" />
         </form>
 
         {/* Render the SubmittedText component with the submitted text */}
