@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "./index.module.css";
 
 export default function Home() {
-  const [animalInput, setAnimalInput] = useState("");
+  const [clauseInput, setClauseInput] = useState("");
   const [result, setResult] = useState();
 
   async function onSubmit(event) {
@@ -14,7 +14,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ animal: animalInput }),
+        body: JSON.stringify({ clause: clauseInput }),
       });
 
       const data = await response.json();
@@ -23,7 +23,7 @@ export default function Home() {
       }
 
       setResult(data.result);
-      setAnimalInput("");
+      setClauseInput("");
     } catch(error) {
       // Consider implementing your own error handling logic here
       console.error(error);
@@ -34,25 +34,152 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>OpenAI Quickstart</title>
+        <title>Review clause POC</title>
         <link rel="icon" href="/dog.png" />
       </Head>
 
       <main className={styles.main}>
-        <img src="/dog.png" className={styles.icon} />
-        <h3>Name my pet</h3>
+        <h3>Review clause</h3>
         <form onSubmit={onSubmit}>
           <input
             type="text"
-            name="animal"
-            placeholder="Enter an animal"
-            value={animalInput}
-            onChange={(e) => setAnimalInput(e.target.value)}
+            name="clause"
+            placeholder="Enter clause to review"
+            value={clauseInput}
+            onChange={(e) => setClauseInput(e.target.value)}
           />
-          <input type="submit" value="Generate names" />
+          <input type="submit" value="Let's go" />
         </form>
+        <details>
+        <summary>API Response:</summary>
         <div className={styles.result}>{result}</div>
+        </details>
+
+      {/* Render ResultComponent with the result prop */}
+      <ResultComponent result={result} />
       </main>
     </div>
   );
 }
+
+// Define a component that takes the result as a prop
+function ResultComponent({ result }) {
+  if (result && typeof result === "string") {
+    try {
+      const data = JSON.parse(result);
+
+      return (
+        <div>
+          {data.parameters.map((uiControl, index) => {
+            switch (uiControl.uiControl) { // Change 'type' to 'uiControl'
+              case 'textInput':
+                return <TextInputComponent key={index} uiControl={uiControl} />;
+              case 'selectMenu':
+                return <SelectMenuComponent key={index} uiControl={uiControl} />;
+              case 'checkboxes':
+                return <CheckboxComponent key={index} uiControl={uiControl} />;
+              case 'radioButtons':
+                return <RadioButtonComponent key={index} uiControl={uiControl} />;
+              default:
+                return null;
+            }
+          })}
+        </div>
+      );
+    } catch (error) {
+      return <div>Error: Unable to parse result.</div>;
+    }
+  } else {
+    return <div>Loading...</div>;
+  }
+}
+
+function TextInputComponent({ uiControl }) {
+  const data = uiControl; // Access uiControl instead of data
+  return (
+    <div className={styles.component}>
+      <label htmlFor={data.textInput.id}>{data.textInput.label}</label>
+      <p>{data.parameterDescription}</p>
+      <input
+        type="text"
+        id={data.textInput.id}
+        value={data.textInput.value}
+        placeholder={data.textInput.placeholder}
+      />
+    </div>
+  );
+}
+
+function SelectMenuComponent({ uiControl }) {
+  const data = uiControl; // Access uiControl instead of data
+  return (
+    <div className={styles.component}>
+      <label htmlFor={data.selectMenu.id}>{data.selectMenu.label}</label>
+      <select id={data.selectMenu.id}>
+        {data.selectMenu.options.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+function CheckboxComponent({ uiControl }) {
+  const data = uiControl; // Access uiControl instead of data
+  return (
+    <div className={styles.component}>
+      <label><strong>{data.parameter}</strong></label>
+      <p>{data.parameterDescription}</p>
+      {data.checkboxes.map((checkbox, index) => (
+        <div key={index}>
+          <input 
+            type="checkbox" 
+            id={checkbox.id} 
+            checked={checkbox.checked} 
+            onChange={() => {/* handle change */}}
+          />
+          <label htmlFor={checkbox.id}>{checkbox.label}</label>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function RadioButtonComponent({ uiControl }) {
+  const data = uiControl;
+  return (
+    <div className={styles.component}>
+      <label>{data.radioButtons.label}</label>
+      <p>{data.parameterDescription}</p>
+      {data.radioButtons.options && Array.isArray(data.radioButtons.options) ? (
+        data.radioButtons.options.map((option, index) => (
+          <div key={index}>
+            <input type="radio" id={option.id} name="radioGroup" value={option.value} />
+            <label htmlFor={option.id}>{option.label}</label>
+          </div>
+        ))
+      ) : (
+        <p>No options available</p> // Provide a fallback message or UI if options are not defined.
+      )}
+    </div>
+  );
+}
+
+// original that needs to be fixed:
+// function RadioButtonComponent({ uiControl }) {
+//   const data = uiControl; // Access uiControl instead of data
+//   return (
+//     <div className={styles.component}>
+//       <label>{data.radioButtons.label}</label>
+//       <p>{data.parameterDescription}</p>
+//       {data.radioButtons.options.map((option, index) => (
+//         <div key={index}>
+//           <input type="radio" id={option.id} name="radioGroup" value={option.value} />
+//           <label htmlFor={option.id}>{option.label}</label>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }

@@ -13,18 +13,24 @@
   font-weight: bold;
   font-style: normal;
 }
+
+.main * {
+  box-sizing: border-box;
+}
+
 .main,
 .main input {
   font-size: 16px;
-  line-height: 24px;
-  color: #353740;
+  line-height: 1.5;
+  color: #111;
   font-family: "ColfaxAI", Helvetica, sans-serif;
 }
 .main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 60px;
+  max-width: 540px;
+  margin: 0 auto;
 }
 .main .icon {
   width: 34px;
@@ -34,12 +40,12 @@
   line-height: 40px;
   font-weight: bold;
   color: #202123;
-  margin: 16px 0 40px;
+  margin: 24px 0;
 }
 .main form {
   display: flex;
   flex-direction: column;
-  width: 320px;
+  width: 100%;
 }
 .main input[type="text"] {
   padding: 12px 16px;
@@ -47,6 +53,7 @@
   border-radius: 4px;
   margin-bottom: 24px;
   outline-color: #10a37f;
+  width: 100%;
 }
 .main ::placeholder {
   color: #8e8ea0;
@@ -62,6 +69,57 @@
   cursor: pointer;
 }
 .main .result {
-  font-weight: bold;
-  margin-top: 40px;
+  padding: 12px;
+  background-color: #eee;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.main p {
+  margin-top: 12px;
+  width: 100%;
+}
+
+.main details {
+  width: 100%;
+  cursor: pointer;
+  margin: 24px 0 0;
+}
+
+.main .component {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  max-width: 100%;
+}
+
+.main .component p {
+  margin: 0;
+  margin-bottom: 8px;
+}
+
+.main .component :first-child {
+  margin-top: 0;
+}
+
+.main .component :last-child {
+  margin-bottom: 0;
+}
+
+.main label {
+  font-weight: 600;
+  margin-top: 24px;
+  display: block;
+}
+
+.main input + label {
+  font-weight: 400;
+  display: inline;
+}
+
+.main select {
+  padding: 8px;
+  font-size: 16px;
+  max-width: 100%;
 }
