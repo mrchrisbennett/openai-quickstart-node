@@ -123,3 +123,8 @@
   font-size: 16px;
   max-width: 100%;
 }
+
+.main .submittedText {
+  margin-top: 12px;
+  font-size: 14px;
+}

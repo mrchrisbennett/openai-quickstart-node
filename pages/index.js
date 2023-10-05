@@ -2,8 +2,19 @@ import Head from "next/head";
 import { useState } from "react";
 import styles from "./index.module.css";
 
+// Create a new component to display the submitted text
+function SubmittedText({ text }) {
+  return (
+    <details>
+    <summary>Submitted text:</summary>
+     {text}
+  </details>
+  );
+}
+
 export default function Home() {
   const [clauseInput, setClauseInput] = useState("");
+  const [submittedText, setSubmittedText] = useState("");
   const [result, setResult] = useState();
 
   async function onSubmit(event) {
@@ -23,9 +34,9 @@ export default function Home() {
       }
 
       setResult(data.result);
+      setSubmittedText(clauseInput);
       setClauseInput("");
-    } catch(error) {
-      // Consider implementing your own error handling logic here
+    } catch (error) {
       console.error(error);
       alert(error.message);
     }
@@ -50,13 +61,17 @@ export default function Home() {
           />
           <input type="submit" value="Let's go" />
         </form>
+
+        {/* Render the SubmittedText component with the submitted text */}
+        {submittedText && <SubmittedText text={submittedText} />}
+
         <details>
-        <summary>API Response:</summary>
-        <div className={styles.result}>{result}</div>
+          <summary>API Response:</summary>
+          <div className={styles.result}>{result}</div>
         </details>
 
-      {/* Render ResultComponent with the result prop */}
-      <ResultComponent result={result} />
+        {/* Render ResultComponent with the result prop */}
+        <ResultComponent result={result} />
       </main>
     </div>
   );
