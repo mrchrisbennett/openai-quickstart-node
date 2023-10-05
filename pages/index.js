@@ -104,9 +104,7 @@ function ResultComponent({ result }) {
     } catch (error) {
       return <div>Error: Unable to parse result.</div>;
     }
-  } else {
-    return <div>Loading...</div>;
-  }
+  } 
 }
 
 function TextInputComponent({ uiControl }) {
