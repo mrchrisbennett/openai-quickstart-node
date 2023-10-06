@@ -65,10 +65,13 @@ export default function Home() {
         {/* Render the SubmittedText component with the submitted text */}
         {submittedText && <SubmittedText text={submittedText} />}
 
-        <details>
-          <summary>API Response:</summary>
-          <div className={styles.result}>{result}</div>
-        </details>
+        {/* Conditionally render the "API Response" details */}
+        {result && ( // Check if result is truthy (not null or undefined)
+          <details>
+            <summary>API Response:</summary>
+            <div className={styles.result}>{result}</div>
+          </details>
+        )}
 
         {/* Render ResultComponent with the result prop */}
         <ResultComponent result={result} />
