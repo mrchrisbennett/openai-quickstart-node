@@ -71,7 +71,9 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h3>Review clause</h3>
+        <h3>Review a clause</h3>
+        <p>Paste in a legal clause (or a few!) and click the button. Wait a few seconds and the AI should give you a few UI controls that it thinks you need based on the clause text.</p>
+        <p>Questions? Ideas? Need help? Reach out at chris.bennett@thomsonreuters.com and I'll see what I can do.</p>
         <form className={styles.form} onSubmit={onSubmit}>
           <input
             type="text"
