@@ -2,6 +2,22 @@ import Head from "next/head";
 import { useState } from "react";
 import styles from "./index.module.css";
 
+// Create a Loading component
+function Loading() {
+  return <div className={styles.loading}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38" stroke="#10a37f">
+    <g fill="none" fill-rule="evenodd">
+        <g transform="translate(1 1)" stroke-width="2">
+            <circle stroke-opacity=".5" cx="18" cy="18" r="18"/>
+            <path d="M36 18c0-9.94-8.06-18-18-18">
+                <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/>
+            </path>
+        </g>
+    </g>
+</svg>
+</div>;
+}
+
 // Create a new component to display the submitted text
 function SubmittedText({ text }) {
   return (
@@ -16,10 +32,13 @@ export default function Home() {
   const [clauseInput, setClauseInput] = useState("");
   const [submittedText, setSubmittedText] = useState("");
   const [result, setResult] = useState();
+  const [loading, setLoading] = useState(false); // Add loading state
 
   async function onSubmit(event) {
     event.preventDefault();
     try {
+      setLoading(true); // Show loading animation
+
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: {
@@ -39,6 +58,8 @@ export default function Home() {
     } catch (error) {
       console.error(error);
       alert(error.message);
+    } finally {
+      setLoading(false); // Hide loading animation after API response
     }
   }
 
@@ -61,6 +82,9 @@ export default function Home() {
           />
           <input className={styles.submit} type="submit" value="Let's go" />
         </form>
+
+        {/* Render loading component when loading is true */}
+        {loading && <Loading />}
 
         {/* Render the SubmittedText component with the submitted text */}
         {submittedText && <SubmittedText text={submittedText} />}

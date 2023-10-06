@@ -88,6 +88,10 @@
   margin: 24px 0 0;
 }
 
+.main .loading {
+  margin-top: 12px;
+}
+
 .main .component {
   border: 1px solid #ddd;
   border-radius: 8px;
