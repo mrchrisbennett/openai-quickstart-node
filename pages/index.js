@@ -136,6 +136,12 @@ function ResultComponent({ result }) {
 
 function TextInputComponent({ uiControl }) {
   const data = uiControl; // Access uiControl instead of data
+  const [inputValue, setInputValue] = useState(data.textInput.value || '');
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <div className={styles.component}>
       <label htmlFor={data.textInput.id}>{data.textInput.label}</label>
@@ -143,12 +149,14 @@ function TextInputComponent({ uiControl }) {
       <input
         type="text"
         id={data.textInput.id}
-        value={data.textInput.value}
+        value={inputValue}
+        onChange={handleInputChange} // Update the input value on change
         placeholder={data.textInput.placeholder}
       />
     </div>
   );
 }
+
 
 function SelectMenuComponent({ uiControl }) {
   const data = uiControl; // Access uiControl instead of data
@@ -168,17 +176,36 @@ function SelectMenuComponent({ uiControl }) {
 
 function CheckboxComponent({ uiControl }) {
   const data = uiControl; // Access uiControl instead of data
+  const [checkedItems, setCheckedItems] = useState(
+    data.checkboxes.reduce((acc, checkbox) => {
+      acc[checkbox.id] = checkbox.checked || false;
+      return acc;
+    }, {})
+  );
+
+  const handleCheckboxChange = (e) => {
+    const checkboxId = e.target.id;
+    const isChecked = e.target.checked;
+
+    setCheckedItems((prevCheckedItems) => ({
+      ...prevCheckedItems,
+      [checkboxId]: isChecked,
+    }));
+  };
+
   return (
     <div className={styles.component}>
-      <label><strong>{data.parameter}</strong></label>
+      <label>
+        <strong>{data.parameter}</strong>
+      </label>
       <p>{data.parameterDescription}</p>
       {data.checkboxes.map((checkbox, index) => (
         <div key={index}>
-          <input 
-            type="checkbox" 
-            id={checkbox.id} 
-            checked={checkbox.checked} 
-            onChange={() => {/* handle change */}}
+          <input
+            type="checkbox"
+            id={checkbox.id}
+            checked={checkedItems[checkbox.id]}
+            onChange={handleCheckboxChange}
           />
           <label htmlFor={checkbox.id}>{checkbox.label}</label>
         </div>
@@ -186,6 +213,7 @@ function CheckboxComponent({ uiControl }) {
     </div>
   );
 }
+
 
 function RadioButtonComponent({ uiControl }) {
   const data = uiControl;
