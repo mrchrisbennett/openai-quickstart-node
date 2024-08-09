@@ -78,7 +78,7 @@ export default function Home() {
           <input
             type="text"
             name="clause"
-            placeholder="Enter clause to review"
+            placeholder="Enter clause(s) to review"
             value={clauseInput}
             onChange={(e) => setClauseInput(e.target.value)}
           />
